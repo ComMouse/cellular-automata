@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Move : MonoBehaviour {
@@ -38,7 +39,7 @@ public class Move : MonoBehaviour {
 	void StartGame () {
         lastTime = 0;
         dir = Direction.Stay;
-        curCoord = LevelData.instance.GetPlayerSpawnPoint(id);
+        curCoord = LevelData.instance.GetPlayerSpawnPoint(id).First();
         transform.position = LevelData.instance.Coord2WorldPos(curCoord);
         LevelData.instance.GridMap[curCoord.y, curCoord.x] = -id - 1;
         targetCoord = curCoord;
