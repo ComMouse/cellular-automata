@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
+using Boo.Lang.Runtime;
 using UnityEngine;
 
 public class LevelData : MonoBehaviour
@@ -18,6 +19,9 @@ public class LevelData : MonoBehaviour
     private int width = 0, height = 0;
 
     private GameObject[,] blockMap;
+
+    private Dictionary<int, LevelCoord> playerSpawnPoints;
+    private Dictionary<int, LevelCoord> lootSpawnPoints;
 
     public int Width => width;
 
@@ -50,11 +54,28 @@ public class LevelData : MonoBehaviour
     {
         blockList = new List<GameObject>();
         blockMap = new GameObject[height, width];
+        playerSpawnPoints = new Dictionary<int, LevelCoord>();
+        lootSpawnPoints = new Dictionary<int, LevelCoord>();
 
         for (int i = 0; i < height; ++i)
         {
             for (int j = 0; j < width; ++j)
             {
+                int grid = gridMap[i, j];
+                if (grid >= (int)GridType.PlayerSpawn1 &&
+                    grid <= (int)GridType.PlayerSpawn4)
+                {
+                    playerSpawnPoints[(grid - (int) GridType.PlayerSpawn1) + 1] =
+                        new LevelCoord(j, i);
+                }
+
+                if (grid >= (int)GridType.LootSpawn1 &&
+                    grid <= (int)GridType.LootSpawn8)
+                {
+                    lootSpawnPoints[(grid - (int)GridType.LootSpawn1) + 1] =
+                        new LevelCoord(j, i);
+                }
+
                 var prefab = GetPrefab(gridMap[i, j]);
                 if (prefab == null)
                     continue;
@@ -116,9 +137,39 @@ public class LevelData : MonoBehaviour
         return LocalPos2Coord(transform.InverseTransformPoint(worldPos));
     }
 
-    public LevelCoord GetSpawnPoint()
+    public LevelCoord GetPlayerSpawnPoint(int id)
     {
-        return new LevelCoord(1, 1);
+        if (!playerSpawnPoints.ContainsKey(id))
+        {
+            throw new RuntimeException($"Player Spawn point of id {id} does not exist");
+        }
+
+        return playerSpawnPoints[id];
+    }
+
+    public LevelCoord GetLootSpawnPoint(int id)
+    {
+        if (!lootSpawnPoints.ContainsKey(id))
+        {
+            throw new RuntimeException($"Loot Spawn point of id {id} does not exist");
+        }
+
+        return lootSpawnPoints[id];
+    }
+
+    public bool IsEmpty(int grid)
+    {
+        return grid == (int)GridType.None || grid == (int)GridType.Empty;
+    }
+
+    public bool IsOccupiedByPlayer(int grid)
+    {
+        return grid < -1;
+    }
+
+    public bool IsWall(int grid)
+    {
+        return grid == (int)GridType.Wall;
     }
 }
 
