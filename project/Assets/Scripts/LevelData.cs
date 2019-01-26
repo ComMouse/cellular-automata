@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -48,9 +49,12 @@ public class LevelData : MonoBehaviour
     public void SetGridMap(int[,] gridMap)
     {
         this.gridMap = gridMap;
-        OriginMap = gridMap;
         width = gridMap.GetLength(1);
         height = gridMap.GetLength(0);
+        OriginMap = new int[height, width];
+        for (int i = 0; i < height; i++)
+            for (int j = 0; j < width; j++)
+                OriginMap[i, j] = gridMap[i, j];
     }
 
     public void Generate()

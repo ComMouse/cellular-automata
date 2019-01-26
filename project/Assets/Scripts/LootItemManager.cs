@@ -12,7 +12,7 @@ public class LootItemManager : MonoBehaviour {
     [SerializeField]
     private GameObject[] itemPrefabs = new GameObject[8];
 
-    private List<GameObject> itemPool; 
+    private List<GameObject> itemPool = new List<GameObject>(); 
 
     private void Awake()
     {

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -113,6 +113,56 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &525653359
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 525653360}
+  - component: {fileID: 525653361}
+  m_Layer: 0
+  m_Name: LootItemPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &525653360
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 525653359}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 12.082391, y: 28.419436, z: -6.875}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &525653361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 525653359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d685b7d1ee2dbf4e95ef0f9a4e92be6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemNums: 0100000000000000010000000000000001000000000000000000000000000000
+  itemPrefabs:
+  - {fileID: 1779722622727894, guid: 2fd35a05cb85b71489c47307d7c3b7c3, type: 2}
+  - {fileID: 1779722622727894, guid: 2fd35a05cb85b71489c47307d7c3b7c3, type: 2}
+  - {fileID: 1779722622727894, guid: 2fd35a05cb85b71489c47307d7c3b7c3, type: 2}
+  - {fileID: 1779722622727894, guid: 2fd35a05cb85b71489c47307d7c3b7c3, type: 2}
+  - {fileID: 1779722622727894, guid: 2fd35a05cb85b71489c47307d7c3b7c3, type: 2}
+  - {fileID: 1779722622727894, guid: 2fd35a05cb85b71489c47307d7c3b7c3, type: 2}
+  - {fileID: 1779722622727894, guid: 2fd35a05cb85b71489c47307d7c3b7c3, type: 2}
+  - {fileID: 1779722622727894, guid: 2fd35a05cb85b71489c47307d7c3b7c3, type: 2}
 --- !u!1 &787501045
 GameObject:
   m_ObjectHideFlags: 0
@@ -318,13 +368,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1149535708}
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1593713885
 GameObject:
   m_ObjectHideFlags: 0
@@ -354,7 +404,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level: {fileID: 1593713887}
-  levelPath: Level/mapDesign
+  levelPath: Level/mkiii
 --- !u!114 &1593713887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -456,7 +506,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2003971909}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 19, y: 26.5, z: -10}
+  m_LocalPosition: {x: 30, y: 20, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
