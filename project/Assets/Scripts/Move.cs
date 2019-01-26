@@ -55,12 +55,12 @@ public class Move : MonoBehaviour {
 
     private float GetInputX()
     {
-        return Input.GetAxis("Vertical");
+        return Input.GetAxis("Horizontal " + id.ToString());
     }
 
     private float GetInputY()
     {
-        return Input.GetAxis("Horizontal");
+        return Input.GetAxis("Vertical " + id.ToString());
     }
 
     private void Tick()
