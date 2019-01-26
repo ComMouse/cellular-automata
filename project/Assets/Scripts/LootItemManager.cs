@@ -23,7 +23,7 @@ public class LootItemManager : MonoBehaviour {
     public void StartGame () {
 		for(int i = 0; i < 8; i++)
         {
-            List<LevelCoord> tmpset = LevelData.instance.GetPlayerSpawnPoint(i + 1);
+            List<LevelCoord> tmpset = LevelData.instance.GetLootSpawnPoint(i);
             if (tmpset.Count < itemNums[i])
             {
                 Debug.Log("Error: Uncompatible count for id: " + i + 1);

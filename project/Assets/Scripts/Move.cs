@@ -42,6 +42,7 @@ public class Move : MonoBehaviour {
         curCoord = LevelData.instance.GetPlayerSpawnPoint(id).First();
         transform.position = LevelData.instance.Coord2WorldPos(curCoord);
         LevelData.instance.GridMap[curCoord.y, curCoord.x] = -id - 1;
+        LevelData.instance.OriginMap[curCoord.y, curCoord.x] = -1;
         targetCoord = curCoord;
         isStart = true;
         Debug.Log("CurrentCoord:" + curCoord.x + " , " + curCoord.y);
