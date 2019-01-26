@@ -100,7 +100,7 @@ public class Move : MonoBehaviour {
             return;
         }
         int grid = LevelData.instance.GridMap[curCoord.y, curCoord.x];
-        if (!(LevelData.instance.IsEmpty(grid) || (LevelData.instance.IsOccupiedByPlayer(grid) && grid == -id - 1)))
+        if (!(LevelData.instance.IsEmpty(grid) || (LevelData.instance.IsOccupiedByPlayer(grid) && grid == -id - 2)))
         {
             Debug.Log(LevelData.instance.GridMap[curCoord.y, curCoord.x]);
             targetCoord = GetLastCoord();
@@ -111,7 +111,7 @@ public class Move : MonoBehaviour {
         {
             LevelCoord nextCoord = GetNextCoord();
             grid = LevelData.instance.GridMap[nextCoord.y, nextCoord.x];
-            if (!(LevelData.instance.IsEmpty(grid) || (LevelData.instance.IsOccupiedByPlayer(grid) && grid == -id - 1)))
+            if (!(LevelData.instance.IsEmpty(grid) || (LevelData.instance.IsOccupiedByPlayer(grid) && grid == -id - 2)))
             {
                 targetCoord = curCoord;
                 dir = Direction.Stay;
@@ -123,11 +123,11 @@ public class Move : MonoBehaviour {
                 {
                     gameObject.GetComponent<PlayerController>().PickupItem(targetCoord);
                 }
-                LevelData.instance.GridMap[targetCoord.y, targetCoord.x] = -id - 1;
+                LevelData.instance.GridMap[targetCoord.y, targetCoord.x] = -id - 2;
                 LevelData.instance.GridMap[curCoord.y, curCoord.x] = LevelData.instance.OriginMap[curCoord.y, curCoord.x];
             }
             //if (dir == Direction.Stay)
-            //    LevelData.instance.GridMap[curCoord.y, curCoord.x] = -id - 1;
+            //    LevelData.instance.GridMap[curCoord.y, curCoord.x] = -id - 2;
             //else
             //    LevelData.instance.GridMap[curCoord.y, curCoord.x] = -1;
         }
@@ -172,7 +172,7 @@ public class Move : MonoBehaviour {
                 break;
         }
         int grid = LevelData.instance.GridMap[lastCoord.y, lastCoord.x];
-        return (LevelData.instance.IsEmpty(grid) || (LevelData.instance.IsOccupiedByPlayer(grid) && grid == -id - 1)) ? lastCoord : curCoord;
+        return (LevelData.instance.IsEmpty(grid) || (LevelData.instance.IsOccupiedByPlayer(grid) && grid == -id - 2)) ? lastCoord : curCoord;
     }
 
 }
