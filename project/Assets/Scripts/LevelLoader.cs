@@ -16,7 +16,7 @@ public class LevelLoader
         var levelTxt = Resources.Load<TextAsset>(path);
         if (levelTxt == null)
         {
-            Debug.LogError($"Level [path] does not exist!");
+            Debug.LogError($"Level [{path}] does not exist!");
             return;
         }
 
