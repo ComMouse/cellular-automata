@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class LevelData : MonoBehaviour
 {
+    public static LevelData instance { get; private set;}
+
     public GameObject[] blockPrefabs;
     [SerializeField]
     private float gridWidth = 1f;
@@ -18,14 +20,15 @@ public class LevelData : MonoBehaviour
     private GameObject[,] blockMap;
 
     public int Width => width;
+
     public int Height => height;
     public int[,] GridMap => gridMap;
     public float GridWidth => gridWidth;
     public float GridHeight => gridHeight;
 
-    private void Start()
+    private void Awake()
     {
-
+        instance = this;
     }
 
     private void Update()
