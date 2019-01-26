@@ -32,12 +32,14 @@ public class Move : MonoBehaviour {
 
     private bool isStart;
 
+    private bool isBacking;
+
 	// Use this for initialization
 	void StartGame () {
         lastTime = 0;
         dir = Direction.Stay;
         curCoord = LevelData.instance.WorldPos2Coord(transform.position);
-            LevelData.instance.GridMap[curCoord.y, curCoord.x] = 1;
+        LevelData.instance.GridMap[curCoord.y, curCoord.x] = id + 1;
         targetCoord = curCoord;
         isStart = true;
         Debug.Log("CurrentCoord:" + curCoord.x + " , " + curCoord.y);
@@ -86,19 +88,32 @@ public class Move : MonoBehaviour {
         {
             return;
         }
-
-        LevelCoord nextCoord = GetNextCoord();
-        if (LevelData.instance.GridMap[nextCoord.y, nextCoord.x] == (int)GridType.Wall)
+        if (LevelData.instance.GridMap[curCoord.y, curCoord.x] > 0 && LevelData.instance.GridMap[curCoord.y, curCoord.x] != id + 1)
         {
-            targetCoord = curCoord;
+            Debug.Log(LevelData.instance.GridMap[curCoord.y, curCoord.x]);
+            targetCoord = GetLastCoord();
+            LevelData.instance.GridMap[targetCoord.y, targetCoord.x] = id + 1;
             dir = Direction.Stay;
         }
         else
-            targetCoord = nextCoord;
-        if (dir == Direction.Stay)
-            LevelData.instance.GridMap[curCoord.y, curCoord.x] = 1;
-        else
-            LevelData.instance.GridMap[curCoord.y, curCoord.x] = -1;
+        {
+            LevelCoord nextCoord = GetNextCoord();
+            if (LevelData.instance.GridMap[nextCoord.y, nextCoord.x] > 0 && LevelData.instance.GridMap[nextCoord.y, nextCoord.x] != id + 1)
+            {
+                targetCoord = curCoord;
+                dir = Direction.Stay;
+            }
+            else
+            {
+                targetCoord = nextCoord;
+                LevelData.instance.GridMap[targetCoord.y, targetCoord.x] = id + 1;
+                LevelData.instance.GridMap[curCoord.y, curCoord.x] = -1;
+            }
+            //if (dir == Direction.Stay)
+            //    LevelData.instance.GridMap[curCoord.y, curCoord.x] = id + 1;
+            //else
+            //    LevelData.instance.GridMap[curCoord.y, curCoord.x] = -1;
+        }
     }
 
     private LevelCoord GetNextCoord()
@@ -113,6 +128,24 @@ public class Move : MonoBehaviour {
                 return new LevelCoord(curCoord.x, curCoord.y + 1);
             case Direction.Down:
                 return new LevelCoord(curCoord.x, curCoord.y - 1);
+            default:
+                break;
+        }
+        return curCoord;
+    }
+
+    private LevelCoord GetLastCoord()
+    {
+        switch (dir)
+        {
+            case Direction.Left:
+                return new LevelCoord(curCoord.x + 1, curCoord.y);
+            case Direction.Right:
+                return new LevelCoord(curCoord.x - 1, curCoord.y);
+            case Direction.Up:
+                return new LevelCoord(curCoord.x, curCoord.y - 1);
+            case Direction.Down:
+                return new LevelCoord(curCoord.x, curCoord.y + 1);
             default:
                 break;
         }
