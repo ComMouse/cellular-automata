@@ -26,31 +26,48 @@ public class Move : MonoBehaviour {
 
     private float lastTime;
 
-    private LevelCoord targetCoord;
+    public LevelCoord targetCoord;
 
-    private LevelCoord curCoord;
+    public LevelCoord curCoord;
+
+    private bool isStart;
 
 	// Use this for initialization
-	void Start () {
+	void StartGame () {
         lastTime = 0;
+        dir = Direction.Stay;
         curCoord = LevelData.instance.WorldPos2Coord(transform.position);
+            LevelData.instance.GridMap[curCoord.y, curCoord.x] = 1;
         targetCoord = curCoord;
+        isStart = true;
+        Debug.Log("CurrentCoord:" + curCoord.x + " , " + curCoord.y);
+        Debug.Log("TargetCoord:" + targetCoord.x + " , " + targetCoord.y );
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (dir == Direction.Stay)
+        if (isStart)
         {
-            dir = Mathf.Abs(GetInputX()) > Mathf.Abs(GetInputY()) ? (GetInputX() > 0 ? Direction.Right : Direction.Left) : (GetInputY() > 0 ? Direction.Up : Direction.Down);
+            if (dir == Direction.Stay)
+            {
+                Vector2 inputAxis = new Vector2(GetInputX(), GetInputY());
+                if (inputAxis != Vector2.zero)
+                    dir = Mathf.Abs(GetInputX()) > Mathf.Abs(GetInputY()) ? (GetInputX() > 0 ? Direction.Right : Direction.Left) : (GetInputY() > 0 ? Direction.Up : Direction.Down);
+            }
+            lastTime += Time.deltaTime;
+            if (lastTime > ticktime)
+            {
+                lastTime -= ticktime;
+                Tick();
+            }
+            curCoord = LevelData.instance.WorldPos2Coord(transform.position);
+            transform.position = Vector3.MoveTowards(transform.position, LevelData.instance.Coord2WorldPos(targetCoord), speed * Time.deltaTime);
         }
-        lastTime += Time.deltaTime;
-        if(lastTime > ticktime)
+        else
         {
-            lastTime -= ticktime;
-            Tick();
+            if (LevelData.instance.isGenerated)
+                StartGame();
         }
-        curCoord = LevelData.instance.WorldPos2Coord(transform.position);
-        transform.position = Vector3.MoveTowards(transform.position, LevelData.instance.Coord2WorldPos(targetCoord), speed * Time.deltaTime);
     }
 
     private float GetInputX()
@@ -66,16 +83,22 @@ public class Move : MonoBehaviour {
     private void Tick()
     {
         if (dir == Direction.Stay)
+        {
             return;
+        }
 
         LevelCoord nextCoord = GetNextCoord();
-        if (LevelData.instance.GridMap[nextCoord.x, nextCoord.y] == (int)GridType.Wall)
+        if (LevelData.instance.GridMap[nextCoord.y, nextCoord.x] == (int)GridType.Wall)
         {
             targetCoord = curCoord;
             dir = Direction.Stay;
         }
         else
             targetCoord = nextCoord;
+        if (dir == Direction.Stay)
+            LevelData.instance.GridMap[curCoord.y, curCoord.x] = 1;
+        else
+            LevelData.instance.GridMap[curCoord.y, curCoord.x] = -1;
     }
 
     private LevelCoord GetNextCoord()

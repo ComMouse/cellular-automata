@@ -26,9 +26,12 @@ public class LevelData : MonoBehaviour
     public float GridWidth => gridWidth;
     public float GridHeight => gridHeight;
 
+    public bool isGenerated;
+
     private void Awake()
     {
         instance = this;
+        isGenerated = false;
     }
 
     private void Update()
@@ -64,6 +67,7 @@ public class LevelData : MonoBehaviour
                 go.transform.localScale = Vector3.one;
             }
         }
+        isGenerated = true;
     }
 
     private GameObject GetPrefab(int type)
@@ -104,7 +108,7 @@ public class LevelData : MonoBehaviour
 
     public LevelCoord LocalPos2Coord(Vector3 pos)
     {
-        return new LevelCoord(Mathf.RoundToInt(pos.x) / width, Mathf.RoundToInt(pos.y / height));
+        return new LevelCoord(Mathf.RoundToInt(pos.x / gridWidth), Mathf.RoundToInt(pos.y / gridHeight));
     }
 
     public LevelCoord WorldPos2Coord(Vector3 worldPos)
@@ -118,6 +122,7 @@ public class LevelData : MonoBehaviour
     }
 }
 
+[System.Serializable]
 public struct LevelCoord
 {
     public int x, y;
