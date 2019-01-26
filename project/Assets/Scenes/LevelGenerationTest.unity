@@ -222,7 +222,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blockPrefabs:
   - {fileID: 0}
-  - {fileID: 1469598677930232, guid: d2b55f8d3328acc44b8bf7e1cf086cf5, type: 2}
+  - {fileID: 1779722622727894, guid: d2b55f8d3328acc44b8bf7e1cf086cf5, type: 2}
   gridWidth: 1
   gridHeight: 1
 --- !u!4 &1593713888
