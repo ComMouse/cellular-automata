@@ -101,10 +101,6 @@ public class Move : MonoBehaviour {
         }
         else
         {
-            if (LevelData.instance.IsLootItem(grid))
-            {
-                gameObject.GetComponent<PlayerController>().PickupItem(curCoord);
-            }
             LevelCoord nextCoord = GetNextCoord();
             grid = LevelData.instance.GridMap[nextCoord.y, nextCoord.x];
             if (!(LevelData.instance.IsEmpty(grid) || (LevelData.instance.IsOccupiedByPlayer(grid) && grid == -id - 1)))
@@ -115,6 +111,10 @@ public class Move : MonoBehaviour {
             else
             {
                 targetCoord = nextCoord;
+                if (LevelData.instance.IsLootItem(grid))
+                {
+                    gameObject.GetComponent<PlayerController>().PickupItem(targetCoord);
+                }
                 LevelData.instance.GridMap[targetCoord.y, targetCoord.x] = -id - 1;
                 LevelData.instance.GridMap[curCoord.y, curCoord.x] = LevelData.instance.OriginMap[curCoord.y, curCoord.x];
             }
