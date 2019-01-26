@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using Boo.Lang.Runtime;
 using UnityEngine;
@@ -20,8 +21,8 @@ public class LevelData : MonoBehaviour
 
     private GameObject[,] blockMap;
 
-    private Dictionary<int, LevelCoord> playerSpawnPoints;
-    private Dictionary<int, LevelCoord> lootSpawnPoints;
+    private List<SpawnPoint> playerSpawnPoints;
+    private List<SpawnPoint> lootSpawnPoints;
 
     public int Width => width;
 
@@ -54,8 +55,8 @@ public class LevelData : MonoBehaviour
     {
         blockList = new List<GameObject>();
         blockMap = new GameObject[height, width];
-        playerSpawnPoints = new Dictionary<int, LevelCoord>();
-        lootSpawnPoints = new Dictionary<int, LevelCoord>();
+        playerSpawnPoints = new List<SpawnPoint>();
+        lootSpawnPoints = new List<SpawnPoint>();
 
         for (int i = 0; i < height; ++i)
         {
@@ -65,15 +66,19 @@ public class LevelData : MonoBehaviour
                 if (grid >= (int)GridType.PlayerSpawn1 &&
                     grid <= (int)GridType.PlayerSpawn4)
                 {
-                    playerSpawnPoints[(grid - (int) GridType.PlayerSpawn1) + 1] =
-                        new LevelCoord(j, i);
+                    playerSpawnPoints.Add(
+                        new SpawnPoint(
+                            grid - (int)GridType.PlayerSpawn1, 
+                            new LevelCoord(j, i)));
                 }
 
                 if (grid >= (int)GridType.LootSpawn1 &&
                     grid <= (int)GridType.LootSpawn8)
                 {
-                    lootSpawnPoints[(grid - (int)GridType.LootSpawn1) + 1] =
-                        new LevelCoord(j, i);
+                    lootSpawnPoints.Add(
+                        new SpawnPoint(
+                            grid - (int)GridType.LootSpawn1,
+                            new LevelCoord(j, i)));
                 }
 
                 var prefab = GetPrefab(gridMap[i, j]);
@@ -137,24 +142,30 @@ public class LevelData : MonoBehaviour
         return LocalPos2Coord(transform.InverseTransformPoint(worldPos));
     }
 
-    public LevelCoord GetPlayerSpawnPoint(int id)
+    public List<SpawnPoint> GetAllPlayerSpawnPoints()
     {
-        if (!playerSpawnPoints.ContainsKey(id))
-        {
-            throw new RuntimeException($"Player Spawn point of id {id} does not exist");
-        }
-
-        return playerSpawnPoints[id];
+        return playerSpawnPoints;
     }
 
-    public LevelCoord GetLootSpawnPoint(int id)
+    public List<LevelCoord> GetPlayerSpawnPoint(int id)
     {
-        if (!lootSpawnPoints.ContainsKey(id))
-        {
-            throw new RuntimeException($"Loot Spawn point of id {id} does not exist");
-        }
+        return playerSpawnPoints
+            .FindAll(point => point.typeId == id)
+            .Select(p => p.coord)
+            .ToList();
+    }
 
-        return lootSpawnPoints[id];
+    public List<SpawnPoint> GetAllLootSpawnPoints()
+    {
+        return lootSpawnPoints;
+    }
+
+    public List<LevelCoord> GetLootSpawnPoint(int id)
+    {
+        return lootSpawnPoints
+            .FindAll(point => point.typeId == id)
+            .Select(p => p.coord)
+            .ToList();
     }
 
     public bool IsEmpty(int grid)
@@ -170,6 +181,18 @@ public class LevelData : MonoBehaviour
     public bool IsWall(int grid)
     {
         return grid == (int)GridType.Wall;
+    }
+}
+
+public struct SpawnPoint
+{
+    public int typeId;
+    public LevelCoord coord;
+
+    public SpawnPoint(int typeId, LevelCoord coord)
+    {
+        this.typeId = typeId;
+        this.coord = coord;
     }
 }
 
