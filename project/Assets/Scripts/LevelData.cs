@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
 public class LevelData : MonoBehaviour
@@ -76,5 +77,47 @@ public class LevelData : MonoBehaviour
             return null;
 
         return blockPrefabs[(int) type];
+    }
+
+    public Vector3 Coord2LocalPos(LevelCoord coord)
+    {
+        return Coord2LocalPos(coord.x, coord.y);
+    }
+
+    public Vector3 Coord2LocalPos(int x, int y)
+    {
+        return new Vector3(x * gridWidth, y * gridHeight);
+    }
+
+    public Vector3 Coord2WorldPos(LevelCoord coord)
+    {
+
+        return Coord2WorldPos(coord.x, coord.y);
+    }
+
+    public Vector3 Coord2WorldPos(int x, int y)
+    {
+        return transform.TransformPoint(Coord2LocalPos(x, y));
+    }
+
+    //public LevelCoord LocalPos2Coord(Vector3 pos)
+    //{
+    //    //return new LevelCoord();
+    //}
+
+    public LevelCoord GetSpawnPoint()
+    {
+        return new LevelCoord(1, 1);
+    }
+}
+
+public struct LevelCoord
+{
+    public int x, y;
+
+    public LevelCoord(int x, int y)
+    {
+        this.x = x;
+        this.y = y;
     }
 }
