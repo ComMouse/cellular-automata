@@ -44,11 +44,11 @@ public class LevelLoader
                 try
                 {
                     int grid = Int32.Parse(rowGrids[j]);
-                    gridMap[rowWidth - i, levelHeight - j] = grid;
+                    gridMap[levelHeight - i, rowWidth - j] = grid;
                 }
-                catch
+                catch (Exception e)
                 {
-                    Debug.LogError($"Error reading value in Grid ({j}, {i})");
+                    Debug.LogError($"Error reading value in Grid ({j}, {i}): {e.Message}");
                 }
             }
         }
