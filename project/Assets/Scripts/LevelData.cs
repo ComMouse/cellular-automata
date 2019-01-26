@@ -86,12 +86,11 @@ public class LevelData : MonoBehaviour
 
     public Vector3 Coord2LocalPos(int x, int y)
     {
-        return new Vector3(x * gridWidth, y * gridHeight);
+        return new Vector3(x * gridWidth, y * gridHeight, 0f);
     }
 
     public Vector3 Coord2WorldPos(LevelCoord coord)
     {
-
         return Coord2WorldPos(coord.x, coord.y);
     }
 
@@ -100,10 +99,15 @@ public class LevelData : MonoBehaviour
         return transform.TransformPoint(Coord2LocalPos(x, y));
     }
 
-    //public LevelCoord LocalPos2Coord(Vector3 pos)
-    //{
-    //    //return new LevelCoord();
-    //}
+    public LevelCoord LocalPos2Coord(Vector3 pos)
+    {
+        return new LevelCoord(Mathf.RoundToInt(pos.x) / width, Mathf.RoundToInt(pos.y / height));
+    }
+
+    public LevelCoord WorldPos2Coord(Vector3 worldPos)
+    {
+        return LocalPos2Coord(transform.InverseTransformPoint(worldPos));
+    }
 
     public LevelCoord GetSpawnPoint()
     {
