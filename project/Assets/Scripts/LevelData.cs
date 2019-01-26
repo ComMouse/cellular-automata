@@ -124,4 +124,24 @@ public struct LevelCoord
         this.x = x;
         this.y = y;
     }
+
+    public static bool operator==(LevelCoord coordA, LevelCoord coordB)
+    {
+        return coordA.x == coordB.x && coordA.y == coordB.y;
+    }
+
+    public static bool operator!=(LevelCoord coordA, LevelCoord coordB)
+    {
+        return !(coordA == coordB);
+    }
+
+    public static LevelCoord operator +(LevelCoord coordA, LevelCoord coordB)
+    {
+        return new LevelCoord(coordA.x + coordB.x, coordA.y + coordB.y);
+    }
+
+    public static LevelCoord operator -(LevelCoord coordA, LevelCoord coordB)
+    {
+        return new LevelCoord(coordA.x - coordB.x, coordA.y - coordB.y);
+    }
 }
