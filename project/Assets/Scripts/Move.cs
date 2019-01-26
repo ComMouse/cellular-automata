@@ -23,6 +23,9 @@ public class Move : MonoBehaviour {
     [SerializeField]
     private int id;
 
+    [SerializeField]
+    private InputController inputCtrl;
+
     private Direction dir;
 
     private float lastTime;
@@ -37,6 +40,11 @@ public class Move : MonoBehaviour {
 
 	// Use this for initialization
 	void StartGame () {
+        if (inputCtrl == null)
+        {
+            inputCtrl = gameObject.AddComponent<InputController>();
+        }
+
         lastTime = 0;
         dir = Direction.Stay;
         curCoord = LevelData.instance.GetPlayerSpawnPoint(id).First();
@@ -77,12 +85,12 @@ public class Move : MonoBehaviour {
 
     private float GetInputX()
     {
-        return Input.GetAxis("Horizontal " + id.ToString());
+        return inputCtrl.GetAxis().x;
     }
 
     private float GetInputY()
     {
-        return Input.GetAxis("Vertical " + id.ToString());
+        return inputCtrl.GetAxis().y;
     }
 
     private void Tick()

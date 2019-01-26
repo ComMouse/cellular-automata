@@ -25,7 +25,7 @@ public class InputController : MonoBehaviour
 
     public string GetInputName(string key)
     {
-        return $"{key} {type}";
+        return $"{key} {(int)type}";
     }
 }
 
