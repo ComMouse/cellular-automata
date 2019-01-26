@@ -38,8 +38,9 @@ public class Move : MonoBehaviour {
 	void StartGame () {
         lastTime = 0;
         dir = Direction.Stay;
-        curCoord = LevelData.instance.WorldPos2Coord(transform.position);
-        LevelData.instance.GridMap[curCoord.y, curCoord.x] = id + 1;
+        curCoord = LevelData.instance.GetPlayerSpawnPoint(id);
+        transform.position = LevelData.instance.Coord2WorldPos(curCoord);
+        LevelData.instance.GridMap[curCoord.y, curCoord.x] = -id - 1;
         targetCoord = curCoord;
         isStart = true;
         Debug.Log("CurrentCoord:" + curCoord.x + " , " + curCoord.y);
@@ -88,17 +89,19 @@ public class Move : MonoBehaviour {
         {
             return;
         }
-        if (LevelData.instance.GridMap[curCoord.y, curCoord.x] > 0 && LevelData.instance.GridMap[curCoord.y, curCoord.x] != id + 1)
+        int grid = LevelData.instance.GridMap[curCoord.y, curCoord.x];
+        if (!(LevelData.instance.IsEmpty(grid) || (LevelData.instance.IsOccupiedByPlayer(grid) && grid != -id - 1)))
         {
             Debug.Log(LevelData.instance.GridMap[curCoord.y, curCoord.x]);
             targetCoord = GetLastCoord();
-            LevelData.instance.GridMap[targetCoord.y, targetCoord.x] = id + 1;
+            LevelData.instance.GridMap[targetCoord.y, targetCoord.x] = -id - 1;
             dir = Direction.Stay;
         }
         else
         {
             LevelCoord nextCoord = GetNextCoord();
-            if (LevelData.instance.GridMap[nextCoord.y, nextCoord.x] > 0 && LevelData.instance.GridMap[nextCoord.y, nextCoord.x] != id + 1)
+            grid = LevelData.instance.GridMap[nextCoord.y, nextCoord.x];
+            if (!(LevelData.instance.IsEmpty(grid) || (LevelData.instance.IsOccupiedByPlayer(grid) && grid != -id - 1)))
             {
                 targetCoord = curCoord;
                 dir = Direction.Stay;
@@ -106,11 +109,11 @@ public class Move : MonoBehaviour {
             else
             {
                 targetCoord = nextCoord;
-                LevelData.instance.GridMap[targetCoord.y, targetCoord.x] = id + 1;
+                LevelData.instance.GridMap[targetCoord.y, targetCoord.x] = -id - 1;
                 LevelData.instance.GridMap[curCoord.y, curCoord.x] = -1;
             }
             //if (dir == Direction.Stay)
-            //    LevelData.instance.GridMap[curCoord.y, curCoord.x] = id + 1;
+            //    LevelData.instance.GridMap[curCoord.y, curCoord.x] = -id - 1;
             //else
             //    LevelData.instance.GridMap[curCoord.y, curCoord.x] = -1;
         }
@@ -136,19 +139,26 @@ public class Move : MonoBehaviour {
 
     private LevelCoord GetLastCoord()
     {
+        LevelCoord lastCoord = curCoord;
         switch (dir)
         {
             case Direction.Left:
-                return new LevelCoord(curCoord.x + 1, curCoord.y);
+                lastCoord = new LevelCoord(curCoord.x + 1, curCoord.y);
+                break;
             case Direction.Right:
-                return new LevelCoord(curCoord.x - 1, curCoord.y);
+                lastCoord = new LevelCoord(curCoord.x - 1, curCoord.y);
+                break;
             case Direction.Up:
-                return new LevelCoord(curCoord.x, curCoord.y - 1);
+                lastCoord = new LevelCoord(curCoord.x, curCoord.y - 1);
+                break;
             case Direction.Down:
-                return new LevelCoord(curCoord.x, curCoord.y + 1);
+                lastCoord = new LevelCoord(curCoord.x, curCoord.y + 1);
+                break;
             default:
                 break;
         }
-        return curCoord;
+        int grid = LevelData.instance.GridMap[lastCoord.y, lastCoord.x];
+        return (LevelData.instance.IsEmpty(grid) || (LevelData.instance.IsOccupiedByPlayer(grid) && grid != -id - 1)) ? lastCoord : curCoord;
     }
+
 }
