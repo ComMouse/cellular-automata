@@ -27,6 +27,7 @@ public class LevelData : MonoBehaviour
 
     public int Height => height;
     public int[,] GridMap => gridMap;
+    public int[,] OriginMap;
     public float GridWidth => gridWidth;
     public float GridHeight => gridHeight;
 
@@ -46,6 +47,7 @@ public class LevelData : MonoBehaviour
     public void SetGridMap(int[,] gridMap)
     {
         this.gridMap = gridMap;
+        OriginMap = gridMap;
         width = gridMap.GetLength(1);
         height = gridMap.GetLength(0);
     }
@@ -89,6 +91,7 @@ public class LevelData : MonoBehaviour
             }
         }
         isGenerated = true;
+        LootItemManager.instance.StartGame();
     }
 
     private GameObject GetPrefab(int type)
@@ -159,7 +162,7 @@ public class LevelData : MonoBehaviour
 
     public bool IsEmpty(int grid)
     {
-        return grid == (int)GridType.None || grid == (int)GridType.Empty;
+        return grid == (int)GridType.None || grid == (int)GridType.Empty || IsLootItem(grid);
     }
 
     public bool IsOccupiedByPlayer(int grid)
@@ -171,6 +174,12 @@ public class LevelData : MonoBehaviour
     {
         return grid == (int)GridType.Wall;
     }
+
+    public bool IsLootItem(int grid)
+    {
+        return grid >= (int)GridType.LootSpawn1 && grid <= (int)GridType.LootSpawn8;
+    }
+    
 }
 
 [System.Serializable]
