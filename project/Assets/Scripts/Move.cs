@@ -86,7 +86,7 @@ public class Move : MonoBehaviour {
                 transform.position = Vector3.MoveTowards(transform.position, LevelData.instance.Coord2WorldPos(targetCoord), GameManager.instance.speed * gameObject.GetComponent<PlayerController>().speedRatio * Time.deltaTime);
 
             }
-            else
+            else if(!gameObject.GetComponent<PlayerController>().isInBed)
             {
                 lastTime += Time.deltaTime;
                 if (lastTime > GameManager.instance.ticktime / transform.parent.GetComponent<PlayerController>().speedRatio)
@@ -178,7 +178,6 @@ public class Move : MonoBehaviour {
             {
                 if (id != 3 && LevelData.instance.IsLootItem(grid))
                 {
-                    Debug.Log(1);
                     gameObject.GetComponent<PlayerController>().PickupItem(nextCoord, grid);
                     //GameManager.instance.ticktime /= 1.1f;
                     //GameManager.instance.speed *= 1.1f;
@@ -187,6 +186,7 @@ public class Move : MonoBehaviour {
                 else if (id == 3 && LevelData.instance.IsOccupiedByPlayer(grid))
                 {
                     gameObject.GetComponent<PlayerController>().KnockoutPlayer(-grid - 2);
+                    LevelData.instance.GridMap[nextCoord.y, nextCoord.x] = LevelData.instance.OriginMap[nextCoord.y, nextCoord.x];
                 }
                 else if (id != 3 && grid == -5)
                 {
