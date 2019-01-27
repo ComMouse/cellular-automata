@@ -63,10 +63,12 @@ public class GameController : MonoBehaviour
         switch (state)
         {
             case GameState.Prepare:
+                prepareCtrl.Exit();
                 break;
             case GameState.Ongoing:
                 break;
             case GameState.Result:
+                EndController.Instance.Exit();
                 break;
         }
 
@@ -98,6 +100,18 @@ public class GameController : MonoBehaviour
     public void StartGame()
     {
         ChangeState(GameState.Load);
+    }
+
+    public void StartPreparation()
+    {
+        ChangeState(GameState.Prepare);
+    }
+
+    public void ShowResult(bool isMomWin = false)
+    {
+        ChangeState(GameState.Result);
+
+        EndController.Instance.Init(isMomWin);
     }
 
     private IEnumerator LoadTitleAsync()

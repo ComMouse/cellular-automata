@@ -23,6 +23,11 @@ public class InputController : MonoBehaviour
         return Input.GetButton(GetInputName("Fire2"));
     }
 
+    public bool GetRestartDown()
+    {
+        return Input.GetButton("Restart");
+    }
+
     public string GetInputName(string key)
     {
         return $"{key} {(int)type}";

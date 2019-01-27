@@ -63,8 +63,7 @@ public class PrepareController : MonoBehaviour
 
     public void Exit()
     {
-        titleGo.SetActive(false);
-        guideGo.SetActive(false);
+        //
     }
 
     public void ChangeState(PrepareState nextState)
