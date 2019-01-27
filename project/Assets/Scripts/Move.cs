@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Move : MonoBehaviour {
 
-    private enum Direction
+    public enum Direction
     {
         Left,
         Right,
@@ -19,14 +19,14 @@ public class Move : MonoBehaviour {
 
     [SerializeField]
     private float speed;
-
-    [SerializeField]
+    
     private int id;
 
     [SerializeField]
     private InputController inputCtrl;
 
     private Direction dir;
+    public Direction Dir => dir;
 
     private float lastTime;
 
@@ -36,7 +36,7 @@ public class Move : MonoBehaviour {
 
     private bool isStart;
 
-    private bool isBacking;
+    private int waitTickState;
 
 	// Use this for initialization
 	void StartGame () {
@@ -44,28 +44,42 @@ public class Move : MonoBehaviour {
         {
             inputCtrl = gameObject.AddComponent<InputController>();
         }
-
+        id = gameObject.GetComponent<PlayerController>().id;
         lastTime = 0;
         dir = Direction.Stay;
         curCoord = LevelData.instance.GetPlayerSpawnPoint(id).First();
         transform.position = LevelData.instance.Coord2WorldPos(curCoord);
         LevelData.instance.GridMap[curCoord.y, curCoord.x] = -id - 2;
-        LevelData.instance.OriginMap[curCoord.y, curCoord.x] = -1;
+        //LevelData.instance.OriginMap[curCoord.y, curCoord.x] = -1;
         targetCoord = curCoord;
         isStart = true;
+        waitTickState = 0;
         Debug.Log("CurrentCoord:" + curCoord.x + " , " + curCoord.y);
         Debug.Log("TargetCoord:" + targetCoord.x + " , " + targetCoord.y );
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (isStart)
+        if (isStart && gameObject.GetComponent<PlayerController>().isAlive)
         {
             if (dir == Direction.Stay)
             {
                 Vector2 inputAxis = new Vector2(GetInputX(), GetInputY());
                 if (inputAxis != Vector2.zero)
                     dir = Mathf.Abs(GetInputX()) > Mathf.Abs(GetInputY()) ? (GetInputX() > 0 ? Direction.Right : Direction.Left) : (GetInputY() > 0 ? Direction.Up : Direction.Down);
+            }
+            else if(waitTickState == 0)
+            {
+                Vector2 inputAxis = new Vector2(GetInputX(), GetInputY());
+                if (inputAxis != Vector2.zero)
+                {
+                    Direction tmpdir = Mathf.Abs(GetInputX()) > Mathf.Abs(GetInputY()) ? (GetInputX() > 0 ? Direction.Right : Direction.Left) : (GetInputY() > 0 ? Direction.Up : Direction.Down);
+                    if (tmpdir == Direction.Down && dir == Direction.Up ||
+                        tmpdir == Direction.Up && dir == Direction.Down ||
+                        tmpdir == Direction.Left && dir == Direction.Right ||
+                        tmpdir == Direction.Right && dir == Direction.Left)
+                        waitTickState = 2;
+                }
             }
             lastTime += Time.deltaTime;
             if (lastTime > ticktime)
@@ -78,7 +92,7 @@ public class Move : MonoBehaviour {
         }
         else
         {
-            if (LevelData.instance.isGenerated)
+            if (LevelData.instance.isGenerated && !isStart)
                 StartGame();
         }
     }
@@ -95,6 +109,25 @@ public class Move : MonoBehaviour {
 
     private void Tick()
     {
+        if(waitTickState == 2)
+        {
+            targetCoord = curCoord;
+            waitTickState--;
+            return;
+        }
+        if(waitTickState == 1)
+        {
+            if (dir == Direction.Up)
+                dir = Direction.Down;
+            else if(dir == Direction.Down)
+                dir = Direction.Up;
+            else if (dir == Direction.Left)
+                dir = Direction.Right;
+            else if (dir == Direction.Right)
+                dir = Direction.Left;
+        }
+        if (waitTickState > 0)
+            waitTickState--;
         if (dir == Direction.Stay)
         {
             return;
@@ -113,9 +146,24 @@ public class Move : MonoBehaviour {
             grid = LevelData.instance.GridMap[nextCoord.y, nextCoord.x];
             if (!(LevelData.instance.IsEmpty(grid) || (LevelData.instance.IsOccupiedByPlayer(grid) && grid == -id - 2)))
             {
-                if (LevelData.instance.IsLootItem(grid))
+                if (id != 3 && LevelData.instance.IsLootItem(grid))
                 {
                     gameObject.GetComponent<PlayerController>().PickupItem(nextCoord, grid);
+                }
+                else if (id == 3 && LevelData.instance.IsOccupiedByPlayer(grid))
+                {
+                    gameObject.GetComponent<PlayerController>().KnockoutPlayer(-grid - 2);
+                }
+                else if (id != 3 && grid == -5)
+                {
+                    PlayerController[] players = GameObject.FindObjectsOfType<PlayerController>();
+                    for (int i = 0; i < players.Length; i++)
+                    {
+                        if (players[i].id == 3)
+                        {
+                            players[i].KnockoutPlayer(id);
+                        }
+                    }
                 }
                 targetCoord = curCoord;
                 dir = Direction.Stay;
@@ -177,6 +225,14 @@ public class Move : MonoBehaviour {
         }
         int grid = LevelData.instance.GridMap[lastCoord.y, lastCoord.x];
         return (LevelData.instance.IsEmpty(grid) || (LevelData.instance.IsOccupiedByPlayer(grid) && grid == -id - 2)) ? lastCoord : curCoord;
+    }
+
+    public void StopMoving()
+    {
+        LevelData.instance.GridMap[curCoord.y, curCoord.x] = LevelData.instance.OriginMap[curCoord.y, curCoord.x];
+        targetCoord = curCoord = LevelData.instance.GetPlayerSpawnPoint(id).First();
+        LevelData.instance.GridMap[targetCoord.y, targetCoord.x] = -id - 2;
+        transform.position = LevelData.instance.Coord2WorldPos(curCoord);
     }
 
 }
