@@ -15,6 +15,8 @@ public class LevelData : MonoBehaviour
     private float gridWidth = 1f;
     [SerializeField]
     private float gridHeight = 1f;
+    [SerializeField]
+    private GameObject placeHolder;
 
     private List<GameObject> blockList;
     private int[,] gridMap;
@@ -102,8 +104,14 @@ public class LevelData : MonoBehaviour
                 //go.transform.localScale = Vector3.one;
             }
         }
-        isGenerated = true;
         LootItemManager.instance.StartGame();
+        StartTutorial();
+    }
+
+    private IEnumerator StartTutorial()
+    {
+        yield return new WaitUntil(() => { return placeHolder.activeInHierarchy; });
+        isGenerated = true;
     }
 
     private GameObject GetPrefab(int type)
