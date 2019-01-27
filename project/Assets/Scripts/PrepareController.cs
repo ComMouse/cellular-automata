@@ -32,6 +32,7 @@ public class PrepareController : MonoBehaviour
             case PrepareState.Title:
                 if (Input.anyKeyDown)
                 {
+                    SoundManager.Instance.Play("Effect_ControllerConfirm");
                     ChangeState(PrepareState.Guide);
                 }
                 break;
@@ -56,7 +57,8 @@ public class PrepareController : MonoBehaviour
 
         ChangeState(initState);
 
-        SoundManager.Instance.Play("Music_PressStart");
+        SoundManager.Instance.Stop("Music_MemoCute");
+        SoundManager.Instance.Play("Music_HappyVictorious");
     }
 
     public void Exit()

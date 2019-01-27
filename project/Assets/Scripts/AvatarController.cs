@@ -33,7 +33,7 @@ public class AvatarController : MonoBehaviour
                     {
                         state = AvatarState.Ready;
 
-                        SoundManager.Instance.Play("Effect_GetController");
+                        SoundManager.Instance.Play("Effect_ControllerConfirm");
                         // Play confirm sound
                         // Update ready UI
                     }

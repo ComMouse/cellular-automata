@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour {
             Debug.Log("Mom Win!");
             gameSet = true;
             SoundManager.Instance.Play("Effect_FailureEnding");
-            SoundManager.Instance.FadeTo("Music_MemoCute", 0.1f, 0.5f);
+            SoundManager.Instance.FadeTo("Music_MemoCute", 0.3f, 2.5f);
         }
     }
 
@@ -47,8 +47,8 @@ public class GameManager : MonoBehaviour {
             Debug.Log("Kids Win!");
             gameSet = true;
 
-            SoundManager.Instance.Play("Effect_FailureEnding");
-            SoundManager.Instance.FadeTo("Music_MemoCute", 0.1f, 0.5f);
+            SoundManager.Instance.Play("Effect_SuccessEnding");
+            SoundManager.Instance.FadeTo("Music_MemoCute", 0.3f, 2.5f);
         }
     }
 }

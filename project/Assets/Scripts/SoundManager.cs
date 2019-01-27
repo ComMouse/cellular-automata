@@ -20,11 +20,29 @@ public class SoundManager : MonoBehaviour
 
     public void Play(string name)
     {
+        if (name.IndexOf("Effect_") > -1)
+        {
+            PlayEffect(name);
+            return;
+        }
+
         var sound = soundList.First(s => s.name == name);
         if (sound == null)
             return;
 
         sound.audio.Play();
+    }
+
+    public void PlayEffect(string name)
+    {
+        var sound = soundList.First(s => s.name == name);
+        if (sound == null)
+            return;
+
+        var audioSrc = Instantiate(sound.audio.gameObject);
+        audioSrc.GetComponent<AudioSource>().Play();
+
+        Destroy(audioSrc, sound.audio.clip.length + 1f);
     }
 
     public void Play(string name, float volume)

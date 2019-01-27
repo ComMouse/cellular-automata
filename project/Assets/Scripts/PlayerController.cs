@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour {
         {
             if(fightResult < 0)
             {
-                speedRatio = 0.5f;
+                speedRatio = 0.25f;
             }
             else
             {
@@ -106,6 +106,10 @@ public class PlayerController : MonoBehaviour {
                 hasItem = true;
 
                 SoundManager.Instance.Play("Effect_GetController");
+            }
+            else
+            {
+                SoundManager.Instance.Play("Effect_CatchByMom");
             }
             LootItemManager.instance.ItemPickup(coord, itemid - (int)GridType.LootSpawn1);
             //LevelData.instance.OriginMap[coord.y, coord.x] = -1;
@@ -132,7 +136,7 @@ public class PlayerController : MonoBehaviour {
                     if (lastTime < 0)
                         lastTime = Time.time;
 
-                    SoundManager.Instance.Play("Effect_CatchbyMom");
+                    SoundManager.Instance.Play("Effect_BabyCry");
                 }
             }
         }

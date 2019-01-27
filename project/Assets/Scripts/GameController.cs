@@ -119,6 +119,7 @@ public class GameController : MonoBehaviour
 
         ChangeState(GameState.Ongoing);
 
+        SoundManager.Instance.Stop("Music_HappyVictorious");
         SoundManager.Instance.Play("Music_MemoCute", 1f);
     }
 
