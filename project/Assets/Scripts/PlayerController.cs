@@ -16,14 +16,14 @@ public class PlayerController : MonoBehaviour {
 		
 	}
 
-    public void PickupItem(LevelCoord coord)
+    public void PickupItem(LevelCoord coord, int grid)
     {
         if (!hasItem)
         {
-            hasItem = true;
-            int grid = LevelData.instance.GridMap[coord.y, coord.x] - (int)GridType.LootSpawn1 + 1;
-            LootItemManager.instance.ItemPickup(coord);
-            LevelData.instance.OriginMap[coord.y, coord.x] = -1;
+            if (grid == (int)GridType.LootSpawn1)
+                hasItem = true;
+            LootItemManager.instance.ItemPickup(coord, grid - (int)GridType.LootSpawn1);
+            //LevelData.instance.OriginMap[coord.y, coord.x] = -1;
         }
     }
 }
