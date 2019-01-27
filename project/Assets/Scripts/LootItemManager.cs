@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LootItemManager : MonoBehaviour {
@@ -21,6 +22,8 @@ public class LootItemManager : MonoBehaviour {
 
     // Use this for initialization
     public void StartGame () {
+        Debug.Log(string.Join(",", Input.GetJoystickNames()));
+
 		for(int i = 0; i < 8; i++)
         {
             List<LevelCoord> tmpset = LevelData.instance.GetLootSpawnPoint(i);

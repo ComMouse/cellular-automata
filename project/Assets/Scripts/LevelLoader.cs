@@ -44,7 +44,7 @@ public class LevelLoader
                 try
                 {
                     int grid = Int32.Parse(rowGrids[j]);
-                    gridMap[i + 1, j + 1] = grid;
+                    gridMap[levelHeight - i, j + 1] = grid;
                 }
                 catch (Exception e)
                 {

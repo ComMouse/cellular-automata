@@ -308,7 +308,7 @@ InputManager:
     invert: 0
     type: 2
     axis: 0
-    joyNum: 8
+    joyNum: 1
   - serializedVersion: 3
     m_Name: Vertical 3
     descriptiveName: 
@@ -324,7 +324,7 @@ InputManager:
     invert: 1
     type: 2
     axis: 1
-    joyNum: 8
+    joyNum: 1
   - serializedVersion: 3
     m_Name: Horizontal 4
     descriptiveName: 
@@ -340,7 +340,7 @@ InputManager:
     invert: 0
     type: 2
     axis: 0
-    joyNum: 9
+    joyNum: 2
   - serializedVersion: 3
     m_Name: Vertical 4
     descriptiveName: 
@@ -356,7 +356,7 @@ InputManager:
     invert: 1
     type: 2
     axis: 1
-    joyNum: 9
+    joyNum: 2
   - serializedVersion: 3
     m_Name: Horizontal 5
     descriptiveName: 
@@ -372,7 +372,7 @@ InputManager:
     invert: 0
     type: 2
     axis: 0
-    joyNum: 10
+    joyNum: 3
   - serializedVersion: 3
     m_Name: Vertical 5
     descriptiveName: 
@@ -388,7 +388,7 @@ InputManager:
     invert: 1
     type: 2
     axis: 1
-    joyNum: 10
+    joyNum: 3
   - serializedVersion: 3
     m_Name: Horizontal 6
     descriptiveName: 
@@ -404,7 +404,7 @@ InputManager:
     invert: 0
     type: 2
     axis: 0
-    joyNum: 11
+    joyNum: 4
   - serializedVersion: 3
     m_Name: Vertical 6
     descriptiveName: 
@@ -419,8 +419,8 @@ InputManager:
     snap: 0
     invert: 1
     type: 2
-    axis: 2
-    joyNum: 11
+    axis: 1
+    joyNum: 4
   - serializedVersion: 3
     m_Name: Fire1 3
     descriptiveName: 
