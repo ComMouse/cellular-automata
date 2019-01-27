@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Move : MonoBehaviour {
 
-    private enum Direction
+    public enum Direction
     {
         Left,
         Right,
@@ -26,6 +26,7 @@ public class Move : MonoBehaviour {
     private InputController inputCtrl;
 
     private Direction dir;
+    public Direction Dir => dir;
 
     private float lastTime;
 
