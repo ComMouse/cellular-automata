@@ -16,8 +16,7 @@ public class Move : MonoBehaviour {
     
     private int id;
 
-    [SerializeField]
-    private InputController inputCtrl;
+    public InputController inputCtrl;
 
     private Direction dir;
     public Direction Dir => dir;
@@ -76,13 +75,13 @@ public class Move : MonoBehaviour {
                 }
             }
             lastTime += Time.deltaTime;
-            if (lastTime > GameManager.instance.ticktime)
+            if (lastTime > GameManager.instance.ticktime / gameObject.GetComponent<PlayerController>().speedRatio)
             {
-                lastTime -= GameManager.instance.ticktime;
+                lastTime -= GameManager.instance.ticktime / gameObject.GetComponent<PlayerController>().speedRatio;
                 Tick();
             }
             curCoord = LevelData.instance.WorldPos2Coord(transform.position);
-            transform.position = Vector3.MoveTowards(transform.position, LevelData.instance.Coord2WorldPos(targetCoord), GameManager.instance.speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, LevelData.instance.Coord2WorldPos(targetCoord), GameManager.instance.speed * gameObject.GetComponent<PlayerController>().speedRatio * Time.deltaTime);
         }
         else
         {
@@ -143,9 +142,9 @@ public class Move : MonoBehaviour {
                 if (id != 3 && LevelData.instance.IsLootItem(grid))
                 {
                     gameObject.GetComponent<PlayerController>().PickupItem(nextCoord, grid);
-                    GameManager.instance.ticktime /= 1.1f;
-                    GameManager.instance.speed *= 1.1f;
-                    Debug.Log("Accelaration" + id);
+                    //GameManager.instance.ticktime /= 1.1f;
+                    //GameManager.instance.speed *= 1.1f;
+                    //Debug.Log("Accelaration" + id);
                 }
                 else if (id == 3 && LevelData.instance.IsOccupiedByPlayer(grid))
                 {
@@ -231,5 +230,6 @@ public class Move : MonoBehaviour {
         LevelData.instance.GridMap[targetCoord.y, targetCoord.x] = -id - 2;
         transform.position = LevelData.instance.Coord2WorldPos(curCoord);
     }
+    
 
 }
