@@ -104,6 +104,8 @@ public class PlayerController : MonoBehaviour {
                 if(id == 3)
                     GameManager.instance.MomWin();
                 hasItem = true;
+
+                SoundManager.Instance.Play("Effect_GetController");
             }
             LootItemManager.instance.ItemPickup(coord, itemid - (int)GridType.LootSpawn1);
             //LevelData.instance.OriginMap[coord.y, coord.x] = -1;
@@ -129,6 +131,8 @@ public class PlayerController : MonoBehaviour {
                     GameManager.instance.kidAlive--;
                     if (lastTime < 0)
                         lastTime = Time.time;
+
+                    SoundManager.Instance.Play("Effect_CatchbyMom");
                 }
             }
         }
