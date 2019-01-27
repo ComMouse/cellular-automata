@@ -37,6 +37,10 @@ public class HoldController : MonoBehaviour
                 GameController.Instance.StartPreparation();
             }
         }
+        else
+        {
+            buttonHoldTime = 0f;
+        }
     }
 
     public void Reset()

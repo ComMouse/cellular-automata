@@ -139,7 +139,7 @@ public class PlayerController : MonoBehaviour {
                     GameManager.instance.kidAlive--;
                     if (lastTime < 0)
                         lastTime = Time.time;
-
+                    players[i].switchModel.SetActive(false);
                     SoundManager.Instance.Play("Effect_BabyCry");
                 }
             }
