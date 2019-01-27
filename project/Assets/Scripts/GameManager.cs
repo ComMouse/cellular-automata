@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager instance { get; private set; }
 
+    private bool gameSet = false;
+
     public int kidAlive;
 
     // Use this for initialization
@@ -23,11 +25,19 @@ public class GameManager : MonoBehaviour {
 
     public void MomWin()
     {
-        Debug.Log("Mom Win!");
+        if (!gameSet)
+        {
+            Debug.Log("Mom Win!");
+            gameSet = true;
+        }
     }
 
     public void KidWin()
     {
-        Debug.Log("Kids Win!");
+        if (!gameSet)
+        {
+            Debug.Log("Kids Win!");
+            gameSet = true;
+        }
     }
 }

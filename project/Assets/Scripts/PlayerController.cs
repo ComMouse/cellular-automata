@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(hasItem && gameObject.GetComponent<Move>().curCoord.x>0 && gameObject.GetComponent<Move>().curCoord.x < 12 && gameObject.GetComponent<Move>().curCoord.y > 0 && gameObject.GetComponent<Move>().curCoord.y < 9)
+        if (hasItem && isAlive && gameObject.GetComponent<Move>().curCoord.x > 0 && gameObject.GetComponent<Move>().curCoord.x < 12 && gameObject.GetComponent<Move>().curCoord.y > 0 && gameObject.GetComponent<Move>().curCoord.y < 9)
         {
             GameManager.instance.KidWin();
         }
@@ -48,9 +48,9 @@ public class PlayerController : MonoBehaviour {
         {
             if(players[i].id == playerid)
             {
-                if (players[i].hasItem)
-                    GameManager.instance.MomWin();
-                else if(players[i].isAlive)
+                //if (players[i].hasItem)
+                //    GameManager.instance.MomWin();
+                if(players[i].isAlive)
                 {
                     players[i].isAlive = false;
                     players[i].gameObject.GetComponent<Move>().StopMoving();
