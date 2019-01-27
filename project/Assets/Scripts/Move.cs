@@ -13,12 +13,6 @@ public class Move : MonoBehaviour {
         Down,
         Stay
     }
-
-    [SerializeField]
-    private float ticktime;
-
-    [SerializeField]
-    private float speed;
     
     private int id;
 
@@ -82,13 +76,13 @@ public class Move : MonoBehaviour {
                 }
             }
             lastTime += Time.deltaTime;
-            if (lastTime > ticktime)
+            if (lastTime > GameManager.instance.ticktime)
             {
-                lastTime -= ticktime;
+                lastTime -= GameManager.instance.ticktime;
                 Tick();
             }
             curCoord = LevelData.instance.WorldPos2Coord(transform.position);
-            transform.position = Vector3.MoveTowards(transform.position, LevelData.instance.Coord2WorldPos(targetCoord), speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, LevelData.instance.Coord2WorldPos(targetCoord), GameManager.instance.speed * Time.deltaTime);
         }
         else
         {
@@ -149,6 +143,9 @@ public class Move : MonoBehaviour {
                 if (id != 3 && LevelData.instance.IsLootItem(grid))
                 {
                     gameObject.GetComponent<PlayerController>().PickupItem(nextCoord, grid);
+                    GameManager.instance.ticktime /= 1.1f;
+                    GameManager.instance.speed *= 1.1f;
+                    Debug.Log("Accelaration" + id);
                 }
                 else if (id == 3 && LevelData.instance.IsOccupiedByPlayer(grid))
                 {
