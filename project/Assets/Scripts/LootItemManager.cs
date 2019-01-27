@@ -109,6 +109,8 @@ public class LootItemManager : MonoBehaviour {
                 itemPool.RemoveAt(i);
                 var tmpPrefab = Instantiate(itemPrefabs[id]);
                 tmpPrefab.transform.position = LevelData.instance.Coord2WorldPos(coord);
+                LevelData.instance.OriginMap[coord.y, coord.x] = 1;
+                break;
             }
         }
     }

@@ -430,6 +430,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6930359d76fc2043887b83a40cbadec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ticktime: 0.1
+  speed: 10
   kidAlive: 2
 --- !u!4 &1619449778
 Transform:

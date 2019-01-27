@@ -6,6 +6,10 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager instance { get; private set; }
 
+    public float ticktime;
+
+    public float speed;
+
     private bool gameSet = false;
 
     public int kidAlive;
