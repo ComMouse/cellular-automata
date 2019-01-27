@@ -94,12 +94,12 @@ public class LevelData : MonoBehaviour
                 if (j > 0 && j < width - 1 && i > 0 && i < height - 1)
                     continue;
 
-                var go = Instantiate(prefab);
-                go.name = $"Block ({j}, {i})";
-                go.transform.parent = transform;
-                go.transform.localPosition = new Vector3(j * gridWidth, i * gridHeight, 0f);
-                go.transform.localRotation = Quaternion.identity;
-                go.transform.localScale = Vector3.one;
+                //var go = Instantiate(prefab);
+                //go.name = $"Block ({j}, {i})";
+                //go.transform.parent = transform;
+                //go.transform.localPosition = new Vector3(j * gridWidth, i * gridHeight, 0f);
+                //go.transform.localRotation = Quaternion.identity;
+                //go.transform.localScale = Vector3.one;
             }
         }
         isGenerated = true;
