@@ -10,6 +10,9 @@ public class PlayerController : MonoBehaviour {
     [SerializeField]
     private GameObject switchModel;
 
+    [SerializeField]
+    private GameObject struggleModel;
+
     [HideInInspector]
     public float speedRatio;
 
@@ -43,6 +46,8 @@ public class PlayerController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        struggleModel?.SetActive(hasKid || (!isInBed && !isAlive));
+
         if (isAlive)
         {
             if (hasItem && gameObject.GetComponent<Move>().curCoord.x > 0 && gameObject.GetComponent<Move>().curCoord.x < 12 && gameObject.GetComponent<Move>().curCoord.y > 0 && gameObject.GetComponent<Move>().curCoord.y < 9)
