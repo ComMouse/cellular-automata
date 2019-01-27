@@ -105,7 +105,7 @@ public class LevelData : MonoBehaviour
             }
         }
         LootItemManager.instance.StartGame();
-        StartTutorial();
+        StartCoroutine(StartTutorial());
     }
 
     private IEnumerator StartTutorial()

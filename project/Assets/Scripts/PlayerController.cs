@@ -7,6 +7,9 @@ public class PlayerController : MonoBehaviour {
     
     public int id;
 
+    [SerializeField]
+    private GameObject switchModel;
+
     [HideInInspector]
     public float speedRatio;
 
@@ -106,6 +109,7 @@ public class PlayerController : MonoBehaviour {
                 hasItem = true;
 
                 SoundManager.Instance.Play("Effect_GetController");
+                switchModel.SetActive(true);
             }
             else
             {
