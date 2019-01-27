@@ -11,7 +11,12 @@ public class PlayerController : MonoBehaviour {
     public float speedRatio;
 
     private bool hasItem;
-    
+
+    private bool hasKid;
+
+    [HideInInspector]
+    public bool isInBed;
+
     private int fightResult;
 
     [HideInInspector]
@@ -24,6 +29,8 @@ public class PlayerController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         hasItem = false;
+        hasKid = false;
+        isInBed = false;
         isAlive = true;
         lastPress = false;
         fightResult = 0;
@@ -39,6 +46,20 @@ public class PlayerController : MonoBehaviour {
             {
                 GameManager.instance.KidWin();
             }
+            if(hasKid && gameObject.GetComponent<Move>().curCoord.x > 17 && gameObject.GetComponent<Move>().curCoord.x <28 && gameObject.GetComponent<Move>().curCoord.y > 26 && gameObject.GetComponent<Move>().curCoord.y < 37)
+            {
+                hasKid = false;
+                PlayerController[] players = GameObject.FindObjectsOfType<PlayerController>();
+                for (int i = 0; i < players.Length; i++)
+                {
+                    if (!players[i].isAlive)
+                    {
+                        players[i].isInBed = true;
+                        players[i].transform.position = LevelData.instance.Coord2WorldPos(new LevelCoord(21, 35));
+                        players[i].transform.parent = null;
+                    }
+                }
+            }
             if(lastTime >= 0 && !lastPress && (gameObject.GetComponent<Move>().inputCtrl.GetButton1Down() || gameObject.GetComponent<Move>().inputCtrl.GetButton2Down()) && id == 3)
             {
                 fightResult ++;
@@ -46,7 +67,7 @@ public class PlayerController : MonoBehaviour {
         }
         else
         {
-            if (!lastPress && (gameObject.GetComponent<Move>().inputCtrl.GetButton1Down() || gameObject.GetComponent<Move>().inputCtrl.GetButton2Down()))
+            if (!isInBed && !lastPress && (gameObject.GetComponent<Move>().inputCtrl.GetButton1Down() || gameObject.GetComponent<Move>().inputCtrl.GetButton2Down()))
             {
                 PlayerController[] players = GameObject.FindObjectsOfType<PlayerController>();
                 for (int i = 0; i < players.Length; i++)
@@ -100,6 +121,7 @@ public class PlayerController : MonoBehaviour {
                 //    GameManager.instance.MomWin();
                 if(players[i].isAlive)
                 {
+                    hasKid = true;
                     players[i].isAlive = false;
                     players[i].transform.position = transform.position;
                     players[i].transform.parent = transform;
