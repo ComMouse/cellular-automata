@@ -53,40 +53,72 @@ public class Move : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (isStart && gameObject.GetComponent<PlayerController>().isAlive)
+        if (isStart)
         {
-            if (dir == Direction.Stay)
+            if (gameObject.GetComponent<PlayerController>().isAlive)
             {
-                Vector2 inputAxis = new Vector2(GetInputX(), GetInputY());
-                if (inputAxis != Vector2.zero)
-                    dir = Mathf.Abs(GetInputX()) > Mathf.Abs(GetInputY()) ? (GetInputX() > 0 ? Direction.Right : Direction.Left) : (GetInputY() > 0 ? Direction.Up : Direction.Down);
-            }
-            else if(waitTickState == 0)
-            {
-                Vector2 inputAxis = new Vector2(GetInputX(), GetInputY());
-                if (inputAxis != Vector2.zero)
+                if (dir == Direction.Stay)
                 {
-                    Direction tmpdir = Mathf.Abs(GetInputX()) > Mathf.Abs(GetInputY()) ? (GetInputX() > 0 ? Direction.Right : Direction.Left) : (GetInputY() > 0 ? Direction.Up : Direction.Down);
-                    if (tmpdir == Direction.Down && dir == Direction.Up ||
-                        tmpdir == Direction.Up && dir == Direction.Down ||
-                        tmpdir == Direction.Left && dir == Direction.Right ||
-                        tmpdir == Direction.Right && dir == Direction.Left)
-                        waitTickState = 2;
+                    Vector2 inputAxis = new Vector2(GetInputX(), GetInputY());
+                    if (inputAxis != Vector2.zero)
+                        dir = Mathf.Abs(GetInputX()) > Mathf.Abs(GetInputY()) ? (GetInputX() > 0 ? Direction.Right : Direction.Left) : (GetInputY() > 0 ? Direction.Up : Direction.Down);
+                }
+                else if (waitTickState == 0)
+                {
+                    Vector2 inputAxis = new Vector2(GetInputX(), GetInputY());
+                    if (inputAxis != Vector2.zero)
+                    {
+                        Direction tmpdir = Mathf.Abs(GetInputX()) > Mathf.Abs(GetInputY()) ? (GetInputX() > 0 ? Direction.Right : Direction.Left) : (GetInputY() > 0 ? Direction.Up : Direction.Down);
+                        if (tmpdir == Direction.Down && dir == Direction.Up ||
+                            tmpdir == Direction.Up && dir == Direction.Down ||
+                            tmpdir == Direction.Left && dir == Direction.Right ||
+                            tmpdir == Direction.Right && dir == Direction.Left)
+                            waitTickState = 2;
+                    }
+                }
+                lastTime += Time.deltaTime;
+                if (lastTime > GameManager.instance.ticktime / gameObject.GetComponent<PlayerController>().speedRatio)
+                {
+                    lastTime -= GameManager.instance.ticktime / gameObject.GetComponent<PlayerController>().speedRatio;
+                    Tick();
+                }
+                curCoord = LevelData.instance.WorldPos2Coord(transform.position);
+                transform.position = Vector3.MoveTowards(transform.position, LevelData.instance.Coord2WorldPos(targetCoord), GameManager.instance.speed * gameObject.GetComponent<PlayerController>().speedRatio * Time.deltaTime);
+
+            }
+            else
+            {
+                lastTime += Time.deltaTime;
+                if (lastTime > GameManager.instance.ticktime / transform.parent.GetComponent<PlayerController>().speedRatio)
+                {
+                    lastTime -= GameManager.instance.ticktime / transform.parent.GetComponent<PlayerController>().speedRatio;
+                    FollowTick();
+                }
+                switch (dir)
+                {
+                    case Direction.Left:
+                        transform.position = transform.parent.position - Vector3.left;
+                        break;
+                    case Direction.Right:
+                        transform.position = transform.parent.position - Vector3.right;
+                        break;
+                    case Direction.Up:
+                        transform.position = transform.parent.position - Vector3.up;
+                        break;
+                    case Direction.Down:
+                        transform.position = transform.parent.position - Vector3.down;
+                        break;
+                    default:
+                        break;
                 }
             }
-            lastTime += Time.deltaTime;
-            if (lastTime > GameManager.instance.ticktime / gameObject.GetComponent<PlayerController>().speedRatio)
-            {
-                lastTime -= GameManager.instance.ticktime / gameObject.GetComponent<PlayerController>().speedRatio;
-                Tick();
-            }
-            curCoord = LevelData.instance.WorldPos2Coord(transform.position);
-            transform.position = Vector3.MoveTowards(transform.position, LevelData.instance.Coord2WorldPos(targetCoord), GameManager.instance.speed * gameObject.GetComponent<PlayerController>().speedRatio * Time.deltaTime);
+            
         }
         else
         {
             if (LevelData.instance.isGenerated && !isStart)
                 StartGame();
+
         }
     }
 
@@ -98,6 +130,11 @@ public class Move : MonoBehaviour {
     private float GetInputY()
     {
         return inputCtrl.GetAxis().y;
+    }
+
+    private void FollowTick()
+    {
+        dir = transform.parent.GetComponent<Move>().dir;
     }
 
     private void Tick()
@@ -141,6 +178,7 @@ public class Move : MonoBehaviour {
             {
                 if (id != 3 && LevelData.instance.IsLootItem(grid))
                 {
+                    Debug.Log(1);
                     gameObject.GetComponent<PlayerController>().PickupItem(nextCoord, grid);
                     //GameManager.instance.ticktime /= 1.1f;
                     //GameManager.instance.speed *= 1.1f;
@@ -225,10 +263,24 @@ public class Move : MonoBehaviour {
 
     public void StopMoving()
     {
-        LevelData.instance.GridMap[curCoord.y, curCoord.x] = LevelData.instance.OriginMap[curCoord.y, curCoord.x];
-        targetCoord = curCoord = LevelData.instance.GetPlayerSpawnPoint(id).First();
-        LevelData.instance.GridMap[targetCoord.y, targetCoord.x] = -id - 2;
-        transform.position = LevelData.instance.Coord2WorldPos(curCoord);
+        targetCoord = curCoord;
+        switch (transform.parent.GetComponent<Move>().dir)
+        {
+            case Direction.Left:
+                transform.position = transform.parent.position - Vector3.left;
+                break;
+            case Direction.Right:
+                transform.position = transform.parent.position - Vector3.right;
+                break;
+            case Direction.Up:
+                transform.position = transform.parent.position - Vector3.up;
+                break;
+            case Direction.Down:
+                transform.position = transform.parent.position - Vector3.down;
+                break;
+            default:
+                break;
+        }
     }
     
 
