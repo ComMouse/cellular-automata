@@ -9,6 +9,11 @@ public class AvatarController : MonoBehaviour
 
     public AvatarState state = AvatarState.None;
 
+    public float prepareTime = 1f;
+
+    private float buttonHoldTime = 0f;
+    public float ButtonHoldTime => buttonHoldTime;
+
     private void Start()
     {
         Debug.Assert(inputCtrl != null);
@@ -22,9 +27,18 @@ public class AvatarController : MonoBehaviour
             case AvatarState.Prepare:
                 if (inputCtrl.GetButton1Down())
                 {
-                    state = AvatarState.Ready;
-                    // Play confirm sound
-                    // Update ready UI
+                    buttonHoldTime += Time.deltaTime;
+
+                    if (buttonHoldTime > prepareTime)
+                    {
+                        state = AvatarState.Ready;
+                        // Play confirm sound
+                        // Update ready UI
+                    }
+                }
+                else
+                {
+                    buttonHoldTime = 0f;
                 }
                 break;
             case AvatarState.Ready:

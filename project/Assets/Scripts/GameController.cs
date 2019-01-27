@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -9,26 +10,38 @@ public class GameController : MonoBehaviour
 
     public GameState state = GameState.None;
 
+    public PrepareController prepareCtrl;
+
     private void Awake()
     {
+        if (instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
     {
-        ChangeState(GameState.Prepare);
     }
 
     private void Update()
     {
         switch (state)
         {
+            case GameState.None:
+                if (prepareCtrl != null)
+                {
+                    ChangeState(GameState.Prepare);
+                }
+
+                break;
             case GameState.Prepare:
-
-                // if everyone is prepared
-
-                // start game
-
+                if (prepareCtrl == null)
+                    return;
                 break;
             case GameState.Ongoing:
                 break;
@@ -62,6 +75,18 @@ public class GameController : MonoBehaviour
         switch (nextState)
         {
             case GameState.Prepare:
+                if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(0))
+                {
+                    StartCoroutine(LoadTitleAsync());
+                }
+                else
+                {
+                    prepareCtrl.Init();
+                }
+
+                break;
+            case GameState.Load:
+                StartCoroutine(LoadGameAsync());
                 break;
             case GameState.Ongoing:
                 break;
@@ -72,7 +97,40 @@ public class GameController : MonoBehaviour
 
     public void StartGame()
     {
-        // TODO
+        ChangeState(GameState.Load);
+    }
+
+    private IEnumerator LoadTitleAsync()
+    {
+        yield return new WaitForSeconds(1f);
+
+        LoadScene(SceneType.Title);
+
+        yield return null;
+
+        prepareCtrl.Init();
+    }
+
+    private IEnumerator LoadGameAsync()
+    {
+        yield return new WaitForSeconds(2f);
+
+        LoadScene(SceneType.Game);
+
+        ChangeState(GameState.Ongoing);
+    }
+
+    private void LoadScene(SceneType sceneType)
+    {
+        switch (sceneType)
+        {
+            case SceneType.Title:
+                SceneManager.LoadScene(0, LoadSceneMode.Single);
+                break;
+            case SceneType.Game:
+                SceneManager.LoadScene(1, LoadSceneMode.Single);
+                break;
+        }
     }
 }
 
@@ -80,6 +138,13 @@ public enum GameState
 {
     None = 0,
     Prepare = 1,
-    Ongoing = 2,
-    Result = 3,
+    Load = 2,
+    Ongoing = 3,
+    Result = 4,
+}
+
+public enum SceneType
+{
+    Title = 0,
+    Game = 1
 }

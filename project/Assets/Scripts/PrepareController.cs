@@ -21,7 +21,9 @@ public class PrepareController : MonoBehaviour
 		Debug.Assert(titleGo != null);
         Debug.Assert(guideGo != null);
         Debug.Assert(avatarCtrls != null && avatarCtrls.Length > 0);
-	}
+
+        GameController.Instance.prepareCtrl = this;
+    }
 
     private void Update()
     {
@@ -51,6 +53,8 @@ public class PrepareController : MonoBehaviour
         {
             avatar.Reset();
         }
+
+        ChangeState(initState);
     }
 
     public void Exit()
@@ -71,7 +75,7 @@ public class PrepareController : MonoBehaviour
                 break;
         }
 
-        nextState = state;
+        state = nextState;
 
         switch (nextState)
         {
