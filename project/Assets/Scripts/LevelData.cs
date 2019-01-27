@@ -177,7 +177,7 @@ public class LevelData : MonoBehaviour
 
     public bool IsEmpty(int grid)
     {
-        return grid == (int)GridType.None || grid == (int)GridType.Empty || IsLootItem(grid) || IsSpawnPoint(grid);
+        return grid == (int)GridType.None || grid == (int)GridType.Empty ||/* IsLootItem(grid) ||*/ IsSpawnPoint(grid);
     }
 
     public bool IsOccupiedByPlayer(int grid)
