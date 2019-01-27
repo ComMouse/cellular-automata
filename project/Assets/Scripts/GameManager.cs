@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour {
 
     public float speed;
 
+    public float fightTime;
+
     private bool gameSet = false;
 
     public int kidAlive;
