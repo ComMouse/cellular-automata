@@ -91,6 +91,9 @@ public class LevelData : MonoBehaviour
                 if (prefab == null)
                     continue;
 
+                if (j > 0 && j < width - 1 && i > 0 && i < height - 1)
+                    continue;
+
                 var go = Instantiate(prefab);
                 go.name = $"Block ({j}, {i})";
                 go.transform.parent = transform;
