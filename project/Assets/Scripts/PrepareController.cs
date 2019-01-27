@@ -55,6 +55,8 @@ public class PrepareController : MonoBehaviour
         }
 
         ChangeState(initState);
+
+        SoundManager.Instance.Play("Music_PressStart");
     }
 
     public void Exit()

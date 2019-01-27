@@ -118,6 +118,8 @@ public class GameController : MonoBehaviour
         LoadScene(SceneType.Game);
 
         ChangeState(GameState.Ongoing);
+
+        SoundManager.Instance.Play("Music_MemoCute", 1f);
     }
 
     private void LoadScene(SceneType sceneType)

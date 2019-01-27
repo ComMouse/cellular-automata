@@ -27,6 +27,16 @@ public class SoundManager : MonoBehaviour
         sound.audio.Play();
     }
 
+    public void Play(string name, float volume)
+    {
+        var sound = soundList.First(s => s.name == name);
+        if (sound == null)
+            return;
+
+        sound.audio.volume = volume;
+        sound.audio.Play();
+    }
+
     public void Stop(string name)
     {
         var sound = soundList.First(s => s.name == name);

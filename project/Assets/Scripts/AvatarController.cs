@@ -32,6 +32,8 @@ public class AvatarController : MonoBehaviour
                     if (buttonHoldTime > prepareTime)
                     {
                         state = AvatarState.Ready;
+
+                        SoundManager.Instance.Play("Effect_GetController");
                         // Play confirm sound
                         // Update ready UI
                     }
