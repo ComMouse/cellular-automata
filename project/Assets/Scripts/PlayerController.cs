@@ -101,6 +101,8 @@ public class PlayerController : MonoBehaviour {
                 if(players[i].isAlive)
                 {
                     players[i].isAlive = false;
+                    players[i].transform.position = transform.position;
+                    players[i].transform.parent = transform;
                     players[i].gameObject.GetComponent<Move>().StopMoving();
                     GameManager.instance.kidAlive--;
                     if (lastTime < 0)
