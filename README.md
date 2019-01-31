@@ -21,12 +21,12 @@ __Team Cellular Automata__
 
 Designer:
 
-- [Zhiguo Lai](https://www.laizhiguo.com/) (@ZhiguoLai)
+- [Zhiguo Lai](https://www.laizhiguo.com/) ([@ZhiguoLai](https://github.com/ZhiguoLai))
 
 Programmer:
 
-- [Jiajun Tan](https://www.jiajun-tan.com/) (@tplatina)
-- [Kevin Han](https://about.commouse.me) (@ComMouse)
+- [Jiajun Tan](https://www.jiajun-tan.com/) ([@tplatina](https://github.com/tplatina))
+- [Kevin Han](https://about.commouse.me) ([@ComMouse](https://github.com/ComMouse))
 
 Artists:
 
