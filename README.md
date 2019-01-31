@@ -2,9 +2,11 @@
 
 Our pixel-style game for Global Game Jam 2019.
 
-Slip Carefully is a 1 VS 2 asymmetric fast-paced action game with pixel art. In this game, home is where you have to find your game consoles all the time. Children need to find the game consoles at night but your mom is going to catch you. However, be careful, the floor is slippery!
+Slip Carefully is a 1 vs. 2 fast-paced asymmetric action game with pixel art. In this game, home is where you have to find your game consoles all the time. Children need to find the game consoles at night but your mom is going to catch you. However, be careful, the floor is slippery!
 
-[Doanload and Play!](https://globalgamejam.org/2019/games/slip-carefully)
+[Download and Play!](https://globalgamejam.org/2019/games/slip-carefully)
+
+![Screenshot](assets\screenshot_small.jpg)
 
 # Control
 
@@ -36,9 +38,5 @@ Sound & Producer:
 
 # Tech Stack
 
-- Unity
+- [Unity](https://unity3d.com/)
 - [Tiled](https://www.mapeditor.org/)
-
-# License
-
-Copyright (C) Team Cellular Automata.
