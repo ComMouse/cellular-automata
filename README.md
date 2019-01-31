@@ -6,7 +6,7 @@ Slip Carefully is a 1 vs. 2 fast-paced asymmetric action game with pixel art. In
 
 [Download and Play!](https://globalgamejam.org/2019/games/slip-carefully)
 
-![Screenshot](assets\screenshot_small.jpg)
+![Screenshot](assets/screenshot_small.jpg)
 
 # Control
 
